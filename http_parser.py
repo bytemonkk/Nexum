@@ -3,6 +3,7 @@ class HttpParseError(Exception):
 
 
 class HttpRequest:
+
     def __init__(self, method, path, version, headers):
         self.method = method
         self.path = path
@@ -11,10 +12,14 @@ class HttpRequest:
 
 
 def parse_request(data):
+
     try:
         text = data.decode("utf-8")
+
     except UnicodeDecodeError as error:
-        raise HttpParseError("Request contains invalid UTF-8") from error
+        raise HttpParseError(
+            "Request contains invalid UTF-8"
+        ) from error
 
     header_section = text.split("\r\n\r\n", 1)[0]
 
@@ -38,6 +43,7 @@ def parse_request(data):
     headers = {}
 
     for line in lines[1:]:
+
         if not line:
             continue
 
